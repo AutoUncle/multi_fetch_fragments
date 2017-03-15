@@ -25,10 +25,10 @@ module MultiFetchFragments
           key = @options[:cache].respond_to?(:call) ? @options[:cache].call(item) : item
 
           key_with_optional_digest = nil
-          if defined?(@view.fragment_name_with_digest)
+          if defined?(@view.fragment_name_with_digest) && !@options[:skip_digest]
             key_with_optional_digest = @view.fragment_name_with_digest(key, @view.view_cache_dependencies)
           elsif defined?(@view.cache_fragment_name)
-            key_with_optional_digest = @view.cache_fragment_name(key)
+            key_with_optional_digest = @view.cache_fragment_name(key, skip_digest: @options[:skip_digest])
           else
             key_with_optional_digest = key
           end
